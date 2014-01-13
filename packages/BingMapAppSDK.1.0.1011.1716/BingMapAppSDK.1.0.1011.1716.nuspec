@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>BingMapAppSDK</id>
+    <version>1.0.1011.1716</version>
+    <title>Bing Map App SDK</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <projectUrl>https://connect.microsoft.com/bingmapapps</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>With the Bing Map App SDK, you can now create your own map apps built on top of Bing Maps and hosted on bing.com. This package contains the required assemblies from the SDK for developing map apps. It is best installed into Silverlight 4 application projects (rather than library projects).</description>
+    <summary>With the Bing Map App SDK, you can now create your own map apps built on top of Bing Maps and hosted on bing.com. This package contains the required assemblies for developing map apps. It is best installed into Silverlight 4 application projects (rather than library projects).</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>Bing Map App Silverlight</tags>
+    <references>
+      <reference file="Microsoft.Maps.Core.dll" />
+      <reference file="Microsoft.Maps.Extended.dll" />
+      <reference file="Microsoft.Maps.MapControl.Types.dll" />
+      <reference file="Microsoft.Maps.Plugins.dll" />
+    </references>
+  </metadata>
+</package>
