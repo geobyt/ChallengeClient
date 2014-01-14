@@ -23,15 +23,11 @@ namespace ChallengeClient.Pages
         public Challenge()
         {
             InitializeComponent();
+
+            Loaded += Page_Loaded;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            this.InitializeEntityDataContext();
-        }
-
-        protected void InitializeEntityDataContext()
+        void Page_Loaded(object sender, RoutedEventArgs e)
         {
             //challenge id
             this.NavigationContext.QueryString.TryGetValue("id", out questId);
@@ -63,23 +59,21 @@ namespace ChallengeClient.Pages
                 myGeocoordinate.Heading ?? Double.NaN
             );
 
-            GeoCoordinate challengeLocation = c.Quest.Location == null ? null : new GeoCoordinate
-            (
-                c.Quest.Location.clat,
-                c.Quest.Location.clong
-            );
+            if (c.Quest.Location != null)
+            {
 
-            ShowLocations(currentLocation, challengeLocation);
-            sampleMap.Center = GetMidPoint(currentLocation, challengeLocation);
+                ShowLocations(currentLocation, c.Quest.Location);
+                sampleMap.Center = GetMidPoint(currentLocation, c.Quest.Location);
 
-            var bounds = new LocationRectangle(
-                currentLocation.Latitude > challengeLocation.Latitude ? currentLocation.Latitude : challengeLocation.Latitude,
-                currentLocation.Longitude < challengeLocation.Longitude ? currentLocation.Longitude : challengeLocation.Longitude,
-                currentLocation.Latitude < challengeLocation.Latitude ? currentLocation.Latitude : challengeLocation.Latitude,
-                currentLocation.Longitude > challengeLocation.Longitude ? currentLocation.Longitude : challengeLocation.Longitude
-            );
+                var bounds = new LocationRectangle(
+                    currentLocation.Latitude > c.Quest.Location.Latitude ? currentLocation.Latitude : c.Quest.Location.Latitude,
+                    currentLocation.Longitude < c.Quest.Location.Longitude ? currentLocation.Longitude : c.Quest.Location.Longitude,
+                    currentLocation.Latitude < c.Quest.Location.Latitude ? currentLocation.Latitude : c.Quest.Location.Latitude,
+                    currentLocation.Longitude > c.Quest.Location.Longitude ? currentLocation.Longitude : c.Quest.Location.Longitude
+                );
 
-            sampleMap.SetView(bounds);
+                sampleMap.SetView(bounds);
+            }
         }
 
         private void ShowLocations(GeoCoordinate currentLocation, GeoCoordinate challengeLocation)
