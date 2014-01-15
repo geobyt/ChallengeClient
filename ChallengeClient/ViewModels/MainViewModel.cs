@@ -47,7 +47,7 @@ namespace ChallengeClient.ViewModels
             this.CompletedItems = new ObservableCollection<ChallengeViewModel>();
 
             //TODO: unhardcode this going forward
-            using (HttpResponseMessage response = await ServiceHelpers.DoGetRequest("4321"))
+            using (HttpResponseMessage response = await ServiceHelpers.DoGetRequest("1234"))
             {
                 try
                 {
