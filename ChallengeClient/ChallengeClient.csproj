@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Controls\BoolToInverseVisibilityConverter.cs" />
     <Compile Include="Controls\BoolToVisibilityConverter.cs" />
+    <Compile Include="Controls\MapViewDependencyProperty.cs" />
     <Compile Include="Helpers\ChallengeResponse.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\ServiceHelpers.cs" />
@@ -104,6 +105,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Challenge.cs" />
+    <Compile Include="Models\MapPin.cs" />
     <Compile Include="Pages\Challenge.xaml.cs">
       <DependentUpon>Challenge.xaml</DependentUpon>
     </Compile>
@@ -116,8 +118,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ChallengeViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Entities\ChallengeViewModel.cs" />
+    <Compile Include="ViewModels\Panels\MainViewModel.cs" />
+    <Compile Include="ViewModels\Entities\MapPinViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

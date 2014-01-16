@@ -1,5 +1,6 @@
 ﻿using ChallengeClient.Helpers;
 using ChallengeClient.Models;
+using Microsoft.Phone.Maps.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,15 +18,15 @@ namespace ChallengeClient.ViewModels
     {
         public MainViewModel()
         {
-            this.CompletedItems = new ObservableCollection<ChallengeViewModel>();
             this.AvailableItems = new ObservableCollection<ChallengeViewModel>();
+            this.MapItems = new ObservableCollection<MapPinViewModel>();
         }
 
         /// <summary>
         /// A collection for ItemViewModel objects.
         /// </summary>
-        public ObservableCollection<ChallengeViewModel> CompletedItems { get; private set; }
         public ObservableCollection<ChallengeViewModel> AvailableItems { get; private set; }
+        public ObservableCollection<MapPinViewModel> MapItems { get; private set; }
 
         private bool isDataLoaded;
         public bool IsDataLoaded
@@ -38,6 +39,21 @@ namespace ChallengeClient.ViewModels
             }
         }
 
+        public LocationRectangle LocationView
+        {
+            get
+            {
+                if (this.MapItems != null && this.MapItems.Count > 0)
+                {
+                    return LocationRectangle.CreateBoundingRectangle(from l in this.MapItems select l.Pin.Location);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         /// <summary>
         /// Creates and adds a few ItemViewModel objects into the Items collection.
         /// </summary>
@@ -45,7 +61,7 @@ namespace ChallengeClient.ViewModels
         {
             this.IsDataLoaded = false;
             this.AvailableItems = new ObservableCollection<ChallengeViewModel>();
-            this.CompletedItems = new ObservableCollection<ChallengeViewModel>();
+            this.MapItems = new ObservableCollection<MapPinViewModel>();
 
             //TODO: unhardcode this going forward
             using (HttpResponseMessage response = await ServiceHelpers.DoGetRequest("1234"))
@@ -71,7 +87,6 @@ namespace ChallengeClient.ViewModels
                         }
 
                         int orderAvailableItems = 0;
-                        int orderCompletedItems = 0;
 
                         foreach (Challenge c in items)
                         {
@@ -79,11 +94,22 @@ namespace ChallengeClient.ViewModels
                             {
                                 c.Order = (orderAvailableItems++).ToString();
                                 this.AvailableItems.Add(new ChallengeViewModel(c));
+
+                                MapPinViewModel pinExists = this.MapItems.Where(x => x.Pin.Location == c.Location).FirstOrDefault();
+
+                                if (pinExists != null)
+                                {
+                                    int index = this.MapItems.IndexOf(pinExists);
+                                    this.MapItems[index].Pin.DisplayText += string.Format(", {0}", c.Order);
+                                }
+                                else
+                                {
+                                    this.MapItems.Add(new MapPinViewModel(new MapPin() { Id = c.Id, DisplayText = c.Order, Location = c.Location, Order = c.Order }));
+                                }
                             }
                             else
                             {
-                                c.Order = (orderCompletedItems++).ToString();
-                                this.CompletedItems.Add(new ChallengeViewModel(c));
+                                //TODO: deal with items with other status differently (how?)
                             }
                         }
                     }
@@ -93,6 +119,9 @@ namespace ChallengeClient.ViewModels
                 }
                 finally
                 {
+                    //update the map 
+                    this.NotifyPropertyChanged("LocationView");
+                    this.NotifyPropertyChanged("AvailableItems");
                     this.IsDataLoaded = true;
                 }
             }

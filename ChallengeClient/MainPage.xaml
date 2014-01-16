@@ -27,14 +27,16 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <!-- Map -->
-        <maps:Map x:Name="MainMap" Grid.Row="0" Height="300">
+        <maps:Map 
+            controls:MapViewDependencyProperty.View="{Binding LocationView}"
+            x:Name="MainMap" Grid.Row="0" Height="300" >
             <toolkit:MapExtensions.Children>
                 <toolkit:MapItemsControl>
                     <toolkit:MapItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <toolkit:Pushpin GeoCoordinate="{Binding Quest.Location}" Content="{Binding Quest.Order}" />
+                            <toolkit:Pushpin GeoCoordinate="{Binding Pin.Location}" Content="{Binding Pin.DisplayText}" />
                         </DataTemplate>
                     </toolkit:MapItemsControl.ItemTemplate>
                 </toolkit:MapItemsControl>
@@ -51,65 +53,28 @@
             Width="480"
             Height="10"
             Visibility="{Binding IsDataLoaded, Converter={StaticResource BoolToInverseVisibilityConverter}}" />
+        
+        <phone:LongListSelector Margin="0,0,-12,0" Grid.Row="1" ItemsSource="{Binding AvailableItems}">
+            <phone:LongListSelector.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="0,0,0,17">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Tap">
+                                <i:InvokeCommandAction Command="{Binding Navigate}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
 
-        <!--Pivot Control-->
-        <phone:Pivot Grid.Row="1">
-            <!--Pivot item one-->
-            <phone:PivotItem>
-                <phone:PivotItem.Header>
-                    <TextBlock FontSize="{StaticResource PhoneFontSizeLarge}" Text="Available" />
-                </phone:PivotItem.Header>
-                <!--Double line list with text wrapping-->
-                <phone:LongListSelector Margin="0,0,-12,0" ItemsSource="{Binding AvailableItems}">
-                    <phone:LongListSelector.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,17">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Tap">
-                                        <i:InvokeCommandAction Command="{Binding Navigate}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Quest.Order}" Style="{StaticResource PhoneTextLargeStyle}" />
-                                    <TextBlock Text="{Binding Quest.Id}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                </StackPanel>
-                                <TextBlock Text="{Binding Quest.Address}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                <TextBlock Text="{Binding Quest.Location}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                            </StackPanel>                            
-                        </DataTemplate>
-                    </phone:LongListSelector.ItemTemplate>
-                </phone:LongListSelector>
-            </phone:PivotItem>
-
-            <!--Pivot item two-->
-            <phone:PivotItem>
-                <phone:PivotItem.Header>
-                    <TextBlock FontSize="{StaticResource PhoneFontSizeLarge}" Text="Completed" />
-                </phone:PivotItem.Header>
-                <!--Double line list no text wrapping-->
-                <phone:LongListSelector Margin="0,0,-12,0" ItemsSource="{Binding CompletedItems}">
-                    <phone:LongListSelector.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Margin="0,0,0,17">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Tap">
-                                        <i:InvokeCommandAction Command="{Binding Navigate}" />
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Quest.Order}" Style="{StaticResource PhoneTextLargeStyle}" />
-                                    <TextBlock Text="{Binding Quest.Id}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
-                                </StackPanel>
-                                <TextBlock Text="{Binding Quest.Address}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                                <TextBlock Text="{Binding Quest.Location}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
-                            </StackPanel>                            
-                        </DataTemplate>
-                    </phone:LongListSelector.ItemTemplate>
-                </phone:LongListSelector>
-            </phone:PivotItem>
-        </phone:Pivot>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Quest.Order}" Style="{StaticResource PhoneTextLargeStyle}" />
+                            <TextBlock Text="{Binding Quest.Id}" TextWrapping="Wrap" Style="{StaticResource PhoneTextLargeStyle}"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Quest.Address}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                        <TextBlock Text="{Binding Quest.Location}" TextWrapping="Wrap" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSubtleStyle}"/>
+                    </StackPanel>                            
+                </DataTemplate>
+            </phone:LongListSelector.ItemTemplate>
+        </phone:LongListSelector>
+            
     </Grid>
     
     <phone:PhoneApplicationPage.ApplicationBar>
