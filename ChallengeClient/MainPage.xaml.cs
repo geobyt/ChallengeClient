@@ -29,7 +29,7 @@ namespace ChallengeClient
             ObservableCollection<DependencyObject> children = MapExtensions.GetChildren(MainMap);
             var obj = children.FirstOrDefault(x => x.GetType() == typeof(MapItemsControl)) as MapItemsControl;
 
-            obj.ItemsSource = App.ViewModel.AvailableItems;
+            obj.ItemsSource = App.ViewModel.MapItems;
             //myMap.SetView(new GeoCoordinate(47.6050338745117, -122.334243774414), 16);
         }
 
