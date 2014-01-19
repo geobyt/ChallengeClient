@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Device.Location;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -66,17 +67,22 @@ namespace ChallengeClient.ViewModels
 
                         foreach (ChallengeResponse c in jsonResponse)
                         {
-                            items.Add(new Challenge() { Id = c.Id.Oid, Address = c.FromPhone, Message = c.Message, Location = new Coordinate() { clat = c.Latitude, clong = c.Longitude }, ProgressStatus = Status.Locked });
+                            items.Add(new Challenge() { Id = c.Id.Oid, Address = c.FromPhone, Message = c.Message, Location = new GeoCoordinate() { Latitude = c.Latitude, Longitude = c.Longitude }, ProgressStatus = Status.Locked });
                         }
+
+                        int orderAvailableItems = 0;
+                        int orderCompletedItems = 0;
 
                         foreach (Challenge c in items)
                         {
                             if (c.ProgressStatus == Status.Locked)
                             {
+                                c.Order = (orderAvailableItems++).ToString();
                                 this.AvailableItems.Add(new ChallengeViewModel(c));
                             }
                             else
                             {
+                                c.Order = (orderCompletedItems++).ToString();
                                 this.CompletedItems.Add(new ChallengeViewModel(c));
                             }
                         }

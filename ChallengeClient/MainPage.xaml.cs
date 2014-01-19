@@ -1,5 +1,9 @@
 ﻿using Microsoft.Phone.Controls;
+using Microsoft.Phone.Maps.Toolkit;
 using System;
+using System.Linq;
+using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Navigation;
 
 namespace ChallengeClient
@@ -16,6 +20,17 @@ namespace ChallengeClient
 
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+
+            Loaded += MainPage_Loaded;
+        }
+
+        void MainPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            ObservableCollection<DependencyObject> children = MapExtensions.GetChildren(MainMap);
+            var obj = children.FirstOrDefault(x => x.GetType() == typeof(MapItemsControl)) as MapItemsControl;
+
+            obj.ItemsSource = App.ViewModel.AvailableItems;
+            //myMap.SetView(new GeoCoordinate(47.6050338745117, -122.334243774414), 16);
         }
 
         // Load data for the ViewModel Items
