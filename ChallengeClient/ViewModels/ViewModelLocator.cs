@@ -12,8 +12,10 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using ChallengeClient.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Phone.Controls;
 using Microsoft.Practices.ServiceLocation;
 
 namespace ChallengeClient.ViewModels
@@ -32,17 +34,32 @@ namespace ChallengeClient.ViewModels
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             var container = SimpleIoc.Default;
 
+            var mainFrame = App.Current.RootVisual as PhoneApplicationFrame;
+
+            container.Register<INavigationService, NavigationService>();
+            container.Register<AuthViewModel>();
             container.Register<MainViewModel>();
+        }
+
+        /// <summary>
+        /// Just a shortcut for getting something out of the service locator
+        /// </summary>
+        /// <typeparam name="T">A type to retrieve from the service locator</typeparam>
+        /// <returns>An instance retrieved from instance from service locator</returns>
+        private T Get<T>() {
+            return ServiceLocator.Current.GetInstance<T>();
         }
 
         public MainViewModel Main
         {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
+            get { return this.Get<MainViewModel>(); }
         }
-        
+
+        public AuthViewModel Auth
+        {
+            get { return this.Get<AuthViewModel>(); }
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

@@ -97,7 +97,7 @@
     <Compile Include="Controls\BoolToVisibilityConverter.cs" />
     <Compile Include="Controls\MapViewDependencyProperty.cs" />
     <Compile Include="Helpers\ChallengeResponse.cs" />
-    <Compile Include="Helpers\RelayCommand.cs" />
+    <Compile Include="Helpers\NavigationService.cs" />
     <Compile Include="Helpers\ServiceHelpers.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">

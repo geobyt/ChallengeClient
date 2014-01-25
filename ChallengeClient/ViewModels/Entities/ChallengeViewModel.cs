@@ -1,6 +1,7 @@
 ﻿using ChallengeClient.Helpers;
 using ChallengeClient.Models;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,8 +29,7 @@ namespace ChallengeClient.ViewModels
         public ChallengeViewModel(Challenge quest)
         {
             this.Quest = quest;
-            this.Navigate = new RelayCommand(NavigateToQuest);
-            this.Navigate.IsEnabled = true;
+            this.Navigate = new RelayCommand(NavigateToQuest);            
         }
 
         private void NavigateToQuest()

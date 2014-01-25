@@ -10,6 +10,7 @@
     xmlns:maps="clr-namespace:Microsoft.Phone.Maps.Controls;assembly=Microsoft.Phone.Maps"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Maps.Toolkit;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:controls="clr-namespace:ChallengeClient.Controls"
+    xmlns:commandextras="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP8"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -19,6 +20,13 @@
     shell:SystemTray.IsVisible="True"
     DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <commandextras:EventToCommand Command="{Binding LoadedCommand}" PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+        
+    </i:Interaction.Triggers>
+    
     <phone:PhoneApplicationPage.Resources>
         <controls:BoolToInverseVisibilityConverter x:Key="BoolToInverseVisibilityConverter" />
     </phone:PhoneApplicationPage.Resources>

@@ -1,6 +1,7 @@
 ﻿using ChallengeClient.Helpers;
 using ChallengeClient.Models;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,7 +30,6 @@ namespace ChallengeClient.ViewModels
         {
             this.Pin = pin;
             this.Navigate = new RelayCommand(NavigateToQuest);
-            this.Navigate.IsEnabled = true;
         }
 
         private void NavigateToQuest()

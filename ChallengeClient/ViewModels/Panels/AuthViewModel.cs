@@ -11,6 +11,16 @@ namespace ChallengeClient.ViewModels
 {
     public class AuthViewModel : ViewModelBase
     {
+        private INavigationService navService;
 
+        public AuthViewModel(INavigationService navService)
+        {
+
+        }
+
+        public bool IsLoggedIn()
+        {
+            return false;
+        }
     }
 }

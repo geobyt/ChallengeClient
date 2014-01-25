@@ -1,6 +1,7 @@
 ﻿using ChallengeClient.Helpers;
 using ChallengeClient.Models;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Microsoft.Phone.Maps.Controls;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,9 @@ namespace ChallengeClient.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel()
-        {
-            this.AvailableItems = new ObservableCollection<ChallengeViewModel>();
-            this.MapItems = new ObservableCollection<MapPinViewModel>();
-        }
+        private INavigationService navService;
+        private AuthViewModel authViewModel;
+
 
         /// <summary>
         /// A collection for ItemViewModel objects.
@@ -36,6 +35,14 @@ namespace ChallengeClient.ViewModels
             set { this.Set("IsDataLoaded", ref this.isDataLoaded, value); }
         }
 
+        private RelayCommand loadedCommand;
+
+        public RelayCommand LoadedCommand
+        {
+            get { return loadedCommand; }
+            set { this.Set("LoadedCommand", ref this.loadedCommand, value); }
+        }
+
         public LocationRectangle LocationView
         {
             get
@@ -48,6 +55,24 @@ namespace ChallengeClient.ViewModels
                 {
                     return null;
                 }
+            }
+        }
+
+        public MainViewModel(INavigationService navService, AuthViewModel authViewModel)
+        {
+            this.AvailableItems = new ObservableCollection<ChallengeViewModel>();
+            this.MapItems = new ObservableCollection<MapPinViewModel>();
+            this.navService = navService;
+            this.authViewModel = authViewModel;
+
+            this.LoadedCommand = new RelayCommand(this.Load);            
+        }
+
+        private void Load()
+        {
+            if (!this.authViewModel.IsLoggedIn())
+            {
+                this.navService.NavigateTo(new Uri("/Pages/SetupPage.xaml", UriKind.Relative));
             }
         }
 
