@@ -1,5 +1,6 @@
 ﻿using ChallengeClient.Helpers;
 using ChallengeClient.Models;
+using GalaSoft.MvvmLight;
 using Microsoft.Phone.Maps.Controls;
 using System;
 using System.Collections.Generic;
@@ -32,11 +33,7 @@ namespace ChallengeClient.ViewModels
         public bool IsDataLoaded
         {
             get { return this.isDataLoaded; }
-            set
-            {
-                this.isDataLoaded = value;
-                this.NotifyPropertyChanged("IsDataLoaded");
-            }
+            set { this.Set("IsDataLoaded", ref this.isDataLoaded, value); }
         }
 
         public LocationRectangle LocationView
@@ -120,8 +117,8 @@ namespace ChallengeClient.ViewModels
                 finally
                 {
                     //update the map 
-                    this.NotifyPropertyChanged("LocationView");
-                    this.NotifyPropertyChanged("AvailableItems");
+                    this.RaisePropertyChanged("LocationView");
+                    this.RaisePropertyChanged("AvailableItems");
                     this.IsDataLoaded = true;
                 }
             }

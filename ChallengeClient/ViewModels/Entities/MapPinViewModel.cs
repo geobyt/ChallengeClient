@@ -1,5 +1,6 @@
 ﻿using ChallengeClient.Helpers;
 using ChallengeClient.Models;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -13,6 +13,7 @@ using System.Device.Location;
 using System.Windows.Shapes;
 using System.Windows.Media;
 using Microsoft.Phone.Maps.Controls;
+using Microsoft.Practices.ServiceLocation;
 
 namespace ChallengeClient.Pages
 {
@@ -29,10 +30,13 @@ namespace ChallengeClient.Pages
 
         void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            // TODO: OMG.
+            var vm = ServiceLocator.Current.GetInstance<MainViewModel>();
+
             //challenge id
             this.NavigationContext.QueryString.TryGetValue("id", out questId);
 
-            ChallengeViewModel c = App.ViewModel.AvailableItems.FirstOrDefault(x => x.Quest.Id.Equals(questId));
+            ChallengeViewModel c = vm.AvailableItems.FirstOrDefault(x => x.Quest.Id.Equals(questId));
 
             if (c != null)
             {

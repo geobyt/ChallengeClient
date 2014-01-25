@@ -20,6 +20,7 @@ using System.Threading;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using ChallengeClient.Helpers;
+using Microsoft.Practices.ServiceLocation;
 
 namespace ChallengeClient.Pages
 {
@@ -80,9 +81,10 @@ namespace ChallengeClient.Pages
 
         private async void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            var vm  = ServiceLocator.Current.GetInstance<MainViewModel>();
             await ServiceHelpers.DoPostRequest(this.CreatePostContent());
 
-            App.ViewModel.IsDataLoaded = false;
+            vm.IsDataLoaded = false;
 
             NavigationService.GoBack();            
         }
