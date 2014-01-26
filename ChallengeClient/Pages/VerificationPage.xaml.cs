@@ -20,7 +20,7 @@ namespace ChallengeClient.Pages
         private void Save_Click(object sender, EventArgs e)
         {
             var vm = this.DataContext as AuthViewModel;
-            vm.ValidateCommand.Execute(this.PhoneNumberTextBox.Text);
+            vm.ValidateCommand.Execute(this.ValidationCodeTextBox.Text);
         }
     }
 }

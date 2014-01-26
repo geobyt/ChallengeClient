@@ -33,7 +33,7 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Enter the validation code"/>
-            <TextBox Grid.Row="1" Text="{Binding PhoneNumber, Mode=TwoWay}" x:Name="ValidationCodeTextBox"/>
+            <TextBox Grid.Row="1" Text="{Binding ValidationCode, Mode=TwoWay}" x:Name="ValidationCodeTextBox"/>
         </Grid>
     </Grid>
 

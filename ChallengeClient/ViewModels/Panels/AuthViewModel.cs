@@ -19,6 +19,8 @@ namespace ChallengeClient.ViewModels
 
         private const string PHONE_NUMBER_SETTINGS = "phoneNumber";
 
+        private const string VALIDATION_CODE_SETTINGS = "validationCode";
+
         private IsolatedStorageSettings localSettings;
 
         #region Phone Number
@@ -67,18 +69,19 @@ namespace ChallengeClient.ViewModels
             this.SavePhoneCommand = new RelayCommand<string>(this.SavePhone);
             this.ValidateCommand = new RelayCommand(this.Validate);
             this.authService = authService;
+            this.navService = navService;
         }
 
         private async void SavePhone(string phoneNumber)
         {
             this.localSettings[PHONE_NUMBER_SETTINGS] = phoneNumber;
-            await this.authService.RequestValidationCodeAsync(phoneNumber);
-            this.navService.NavigateTo(new Uri("/Pages/VerficationPage.xaml", UriKind.Relative));
+            //await this.authService.RequestValidationCodeAsync(phoneNumber);
+            this.navService.NavigateTo(new Uri("/Pages/VerificationPage.xaml", UriKind.Relative));
         }
         
-        private void Validate()
+        private async void Validate(string validationCode)
         {
-            
+            this.localSettings[PHONE_NUMBER_SETTINGS] = phoneNumber;
         }
 
         public bool IsLoggedIn()
