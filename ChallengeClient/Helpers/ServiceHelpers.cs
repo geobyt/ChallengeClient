@@ -9,8 +9,10 @@ namespace ChallengeClient.Helpers
 {
     public static class ServiceHelpers
     {
-        private static string GETUrl = "http://lyra-app.cloudapp.net/pins/{0}";
-        private static string POSTUrl = "http://lyra-app.cloudapp.net/pins";
+        public const string BASE_URL = "http://192.168.1.9:5000";
+
+        public const string GETUrl = "/pins/{0}";
+        public const string POSTUrl = "/pins";
 
         public static async Task<HttpResponseMessage> DoPostRequest(string content)
         {
@@ -24,8 +26,22 @@ namespace ChallengeClient.Helpers
 
         public static async Task<HttpResponseMessage> DoGetRequest(string phoneNum)
         {
+            return await GetAsync(string.Format(GETUrl, phoneNum));
+        }
+
+        public static async Task<HttpResponseMessage> GetAsync(string url)
+        {
             var httpClient = new HttpClient(new HttpClientHandler());
-            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, string.Format(GETUrl, phoneNum));
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, BASE_URL + url);
+            HttpResponseMessage response = await httpClient.SendAsync(request);
+
+            return response;
+        }
+        public static async Task<HttpResponseMessage> PostAsync(string url, string content)
+        {
+            var httpClient = new HttpClient(new HttpClientHandler());
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, BASE_URL + url);
+            request.Content = new StringContent(content);
             HttpResponseMessage response = await httpClient.SendAsync(request);
 
             return response;

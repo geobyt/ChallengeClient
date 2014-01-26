@@ -11,17 +11,16 @@ using ChallengeClient.ViewModels;
 
 namespace ChallengeClient.Pages
 {
-    public partial class SetupPage : PhoneApplicationPage
+    public partial class VerificationPage : PhoneApplicationPage
     {
-        public SetupPage()
+        public VerificationPage()
         {
             InitializeComponent();
         }
-
         private void Save_Click(object sender, EventArgs e)
         {
             var vm = this.DataContext as AuthViewModel;
-            vm.SavePhoneCommand.Execute(this.PhoneNumberTextBox.Text);
+            vm.ValidateCommand.Execute(this.PhoneNumberTextBox.Text);
         }
     }
 }

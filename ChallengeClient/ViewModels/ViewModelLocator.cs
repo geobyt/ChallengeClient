@@ -13,6 +13,7 @@
 */
 
 using ChallengeClient.Helpers;
+using ChallengeClient.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Phone.Controls;
@@ -36,6 +37,7 @@ namespace ChallengeClient.ViewModels
 
             var mainFrame = App.Current.RootVisual as PhoneApplicationFrame;
 
+            container.Register<AuthService>();
             container.Register<INavigationService, NavigationService>();
             container.Register<AuthViewModel>();
             container.Register<MainViewModel>();
