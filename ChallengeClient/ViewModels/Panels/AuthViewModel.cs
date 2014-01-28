@@ -19,7 +19,7 @@ namespace ChallengeClient.ViewModels
 
         private const string PHONE_NUMBER_SETTINGS = "phoneNumber";
 
-        private const string VALIDATION_CODE_SETTINGS = "validationCode";
+        private const string AUTH_TOKEN_SETTINGS = "authToken";
 
         private IsolatedStorageSettings localSettings;
 
@@ -53,7 +53,7 @@ namespace ChallengeClient.ViewModels
             private set; 
         }
 
-        public RelayCommand ValidateCommand
+        public RelayCommand<string> ValidateCommand
         {
             get;
             private set;
@@ -67,7 +67,7 @@ namespace ChallengeClient.ViewModels
             this.localSettings = IsolatedStorageSettings.ApplicationSettings;
 
             this.SavePhoneCommand = new RelayCommand<string>(this.SavePhone);
-            this.ValidateCommand = new RelayCommand(this.Validate);
+            this.ValidateCommand = new RelayCommand<string>(this.Validate);
             this.authService = authService;
             this.navService = navService;
         }
@@ -75,18 +75,29 @@ namespace ChallengeClient.ViewModels
         private async void SavePhone(string phoneNumber)
         {
             this.localSettings[PHONE_NUMBER_SETTINGS] = phoneNumber;
-            //await this.authService.RequestValidationCodeAsync(phoneNumber);
+            await this.authService.RequestValidationCodeAsync(phoneNumber);
             this.navService.NavigateTo(new Uri("/Pages/VerificationPage.xaml", UriKind.Relative));
         }
         
         private async void Validate(string validationCode)
         {
-            this.localSettings[PHONE_NUMBER_SETTINGS] = phoneNumber;
+            var authToken = await this.authService.RequestAuthTokenAsync(validationCode);
+
+            if (authToken != null)
+            {
+                this.Login(authToken);
+                this.navService.NavigateTo(new Uri("/MainPage.xaml", UriKind.Relative));
+            }
+        }
+
+        public void Login(string authToken)
+        {
+            this.localSettings[AUTH_TOKEN_SETTINGS] = authToken;
         }
 
         public bool IsLoggedIn()
         {
-            return false;
+            return this.localSettings.Contains(AUTH_TOKEN_SETTINGS);
         }
     }
 }

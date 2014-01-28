@@ -17,11 +17,21 @@ namespace ChallengeClient.Services
             JObject jobj = JObject.Parse(body);
         }
 
-        public async void RequestAuthTokenAsync(string phoneNumber)
+        public async Task<string> RequestAuthTokenAsync(string validationCode)
         {
-            var response = await ServiceHelpers.GetAsync("/auth_token/{0}");
+            var response = await ServiceHelpers.GetAsync(string.Format("/auth_token/{0}", validationCode));
             var body = await response.Content.ReadAsStringAsync();
-            JObject jobj = JObject.Parse(body);
+
+            try
+            {
+                JObject jobj = JObject.Parse(body);
+                return jobj["user"]["auth_token"].Value<string>();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            
         }
 
 

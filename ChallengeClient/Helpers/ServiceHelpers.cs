@@ -9,7 +9,8 @@ namespace ChallengeClient.Helpers
 {
     public static class ServiceHelpers
     {
-        public const string BASE_URL = "http://192.168.1.9:5000";
+        public const string BASE_URL = "http://lyra-app.cloudapp.net";
+        // public const string BASE_URL = "http://192.168.1.9:5000";
 
         public const string GETUrl = "/pins/{0}";
         public const string POSTUrl = "/pins";
