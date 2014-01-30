@@ -125,6 +125,7 @@
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\AuthService.cs" />
+    <Compile Include="Services\PinService.cs" />
     <Compile Include="ViewModels\Panels\AuthViewModel.cs" />
     <Compile Include="ViewModels\Entities\ChallengeViewModel.cs" />
     <Compile Include="ViewModels\Panels\MainViewModel.cs" />
