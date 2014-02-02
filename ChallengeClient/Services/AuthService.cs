@@ -25,7 +25,7 @@ namespace ChallengeClient.Services
             try
             {
                 JObject jobj = JObject.Parse(body);
-                return jobj["user"]["auth_token"].Value<string>();
+                return jobj["auth_token"].Value<string>();
             }
             catch (Exception)
             {

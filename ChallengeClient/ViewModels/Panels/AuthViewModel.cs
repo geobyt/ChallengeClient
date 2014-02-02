@@ -75,6 +75,8 @@ namespace ChallengeClient.ViewModels
         private async void SavePhone(string phoneNumber)
         {
             this.localSettings[PHONE_NUMBER_SETTINGS] = phoneNumber;
+            this.localSettings.Save();
+
             await this.authService.RequestValidationCodeAsync(phoneNumber);
             this.navService.NavigateTo(new Uri("/Pages/VerificationPage.xaml", UriKind.Relative));
         }
@@ -93,6 +95,7 @@ namespace ChallengeClient.ViewModels
         public void Login(string authToken)
         {
             this.localSettings[AUTH_TOKEN_SETTINGS] = authToken;
+            this.localSettings.Save();
         }
 
         public bool IsLoggedIn()
